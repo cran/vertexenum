@@ -45,8 +45,8 @@ void copy_input(const SEXP A_num, const SEXP A_den, const SEXP b_num, const SEXP
   long n = INTEGER(dim)[1];
   long num[n+1];
   long den[n+1];
-  int i;
-  int j;
+  int i = 0;
+  int j = 0;
   for (i = 0; i < m; i++) {
     num[0] = INTEGER(b_num)[i];
     den[0] = INTEGER(b_den)[i];
@@ -123,10 +123,12 @@ SEXP vertexenum(const SEXP A_num, const SEXP A_den, const SEXP b_num, const SEXP
   /* vertex/ray/facet from the lrs_mp_vector output         */
   /* prune is TRUE if tree should be pruned at current node */
   int numVertices = 0;
+  int oldAllocated = 3;
   int allocated = 3;
   int i = 0;
   int j = 0;
   lrs_mp_matrix matrix = lrs_alloc_mp_matrix(allocated, Q->n);
+  int tmpMatrixAllocated = 0;
   lrs_mp_matrix tmpMatrix;
   // stores the denominators of the extreme rays, if any
   /* lrs_mp_vector ray_denom = lrs_alloc_mp_vector(allocated); */
@@ -143,8 +145,15 @@ SEXP vertexenum(const SEXP A_num, const SEXP A_den, const SEXP b_num, const SEXP
 	/*   ray_denom[numVertices] = 1; */
 	/* } */
 	if (numVertices == allocated) {
+	  if (tmpMatrixAllocated) {
+	    lrs_clear_mp_matrix(tmpMatrix, oldAllocated, Q->n);
+	  } else {
+	    // first time allocating tmpMatrix
+	    tmpMatrixAllocated = 1;
+	  }
 	  //printf("\n\n");
 	  //printf("Copying...\n");
+	  oldAllocated = allocated;
 	  allocated *= 2;
 	  // First copy the matrix
 	  tmpMatrix = matrix;
@@ -157,6 +166,7 @@ SEXP vertexenum(const SEXP A_num, const SEXP A_den, const SEXP b_num, const SEXP
 	    }
 	    //printf("\n");
 	  }
+	  lrs_clear_mp_matrix(tmpMatrix, oldAllocated, Q->n);
 	  // Now copy ray_denom
 	  /* tmp_ray_denom = ray_denom; */
 	  /* ray_denom = lrs_alloc_mp_vector(allocated); */
@@ -199,6 +209,8 @@ SEXP vertexenum(const SEXP A_num, const SEXP A_den, const SEXP b_num, const SEXP
     //printf("\n");
   }
 
+  // free up matrix
+  lrs_clear_mp_matrix(matrix, allocated, Q->n);
   lrs_clear_mp_vector(output, Q->n);
   lrs_free_dic (P,Q);           /* deallocate lrs_dic */
   lrs_free_dat (Q);             /* deallocate lrs_dat */

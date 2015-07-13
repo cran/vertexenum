@@ -26,6 +26,7 @@ enumerate.vertices(A, b, warn_if_open=FALSE)
   was written by David Avis.
 }
 \examples{
+library(vertexenum)
 ## example vertex enumeration
 ## the system Ax <= b represents a unit square, with
 ## the lower left corner at the origin
@@ -45,7 +46,6 @@ b <- c(0, 1, 0)
 ## will print a warning, since the input set described by Ax <= b
 ## is not closed
 enumerate.vertices(A, b, warn_if_open=TRUE)
-
 }
 \author{
   Robert Robere \email{robere@cs.toronto.edu}

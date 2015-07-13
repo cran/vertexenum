@@ -1,6 +1,5 @@
-##' @export
 ##' @useDynLib vertexenum
-library(numbers)
+##' @export
 enumerate.vertices <- function(A, b, warn_if_open=FALSE) {
     APPROXIMATION = 10000;
     ## Given a linear system Ax <= b, return the vertices
@@ -25,12 +24,12 @@ enumerate.vertices <- function(A, b, warn_if_open=FALSE) {
     b_den <- vector(mode="integer", length=m)
     for (i in 1:m) {
         ## First approximate b
-        cur = ratFarey(b[i], APPROXIMATION, upper=FALSE)
+        cur = numbers::ratFarey(b[i], APPROXIMATION, upper=FALSE)
         b_num[i] = cur[1]
         b_den[i] = cur[2]
         ## Now approximate A
         for (j in 1:n) {
-            cur = ratFarey(A[i,j], APPROXIMATION, upper=FALSE)
+            cur = numbers::ratFarey(A[i,j], APPROXIMATION, upper=FALSE)
             A_num[i,j] = -cur[1]
             A_den[i,j] = cur[2]
         }

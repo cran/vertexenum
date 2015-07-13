@@ -3344,6 +3344,11 @@ pivot (lrs_dic * P, lrs_dat * Q, long bas, long cob)
   long r, s;
   long i, j;
   lrs_mp Ns, Nt, Ars;
+  // Added by Robert Robere
+  // initialize Nt, Ns
+  itomp(1L, Ns);
+  itomp(1L, Nt);
+  itomp(1L, Ars);
   /* assign local variables to structures */
 
   lrs_mp_matrix A = P->A;
@@ -3354,7 +3359,6 @@ pivot (lrs_dic * P, lrs_dat * Q, long bas, long cob)
   long d, m_A;
 
   lrs_alloc_mp(Ns); lrs_alloc_mp(Nt); lrs_alloc_mp(Ars);
-
   d = P->d;
   m_A = P->m_A;
   Q->count[3]++;    /* count the pivot */
@@ -5062,6 +5066,13 @@ lrs_alloc_dic (lrs_dat * Q)
   Q->inequality[0] = 2L;
   Q->Gcd = lrs_alloc_mp_vector(m);
   Q->Lcm = lrs_alloc_mp_vector(m);
+  // added by Robert Robere
+  // lrs_alloc_mp_vector does not initialize
+  // lrs_mps properly: first value must be 2!
+  for (i = 0; i <= m; i++) {
+    itomp(1L, Q->Gcd[i]);
+    itomp(1L, Q->Lcm[i]);
+  }
   Q->saved_C = (long int*) CALLOC (d + 1, sizeof (long));
 
   Q->lastdv = d;      /* last decision variable may be decreased */

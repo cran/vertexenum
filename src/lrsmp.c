@@ -106,7 +106,7 @@ lrs_clear_mp_vector (lrs_mp_vector p, long n)
 {
   long i;
   for (i=0; i<=n; i++)
-     free (p[i] );
+     free (p[i]);
   free (p);
 }
 
@@ -127,7 +127,8 @@ lrs_alloc_mp_matrix (long m, long n)
 
   for (i = 0; i < m + 1; i++)
     {
-      a[i] = (long int **)calloc ((n + 1), sizeof (lrs_mp *));
+      //a[i] = lrs_alloc_mp_vector(n);
+      a[i] = (long int **)calloc ((n + 1), sizeof(lrs_mp));
 
       for (j = 0; j < n + 1; j++)
 	a[i][j] = (araw + i * row_width + j * mp_width);
@@ -140,14 +141,23 @@ lrs_clear_mp_matrix (lrs_mp_matrix p, long m, long n)
 /* free space allocated to lrs_mp_matrix p */
 {
   long i;
+  long j;
+  /* p[0][0] is araw, the actual matrix storage address */
 
-/* p[0][0] is araw, the actual matrix storage address */
-
- free(p[0][0]);
-
- for (i = 0; i < m + 1; i++)
-      free (p[i]);
- free(p);
+  free(p[0][0]);
+  for (i = 0; i < m+1; i++)
+    free(p[i]);
+  free(p);
+  
+   /* for (i = 0; i < m + 1; i++) {  */
+   /*      for (j = 0; j < n+1; j++) {  */
+   /* 	  // free individual "araw[i][j]"  */
+   /* 	  free (p[i][j]);  */
+   /* 	}  */
+   /* 	// free a[i]s  */
+   /* 	free(p[i]);  */
+   /* } */
+   /* free(p); */
 }
 
 /*********************************************************/
@@ -950,6 +960,10 @@ comprod (lrs_mp Na, lrs_mp Nb, lrs_mp Nc, lrs_mp Nd)	/* +1 if Na*Nb > Nc*Nd  */
 			  /*  0 if Na*Nb = Nc*Nd  */
 {
   lrs_mp mc, md;
+  // added by Robert Robere
+  // initialize mc, md
+  itomp(1L, mc);
+  itomp(1L, md);
   mulint (Na, Nb, mc);
   mulint (Nc, Nd, md);
   linint (mc, ONE, md, -ONE);
