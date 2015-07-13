@@ -1,0 +1,4 @@
+This directory contains code for vertex enumeration. I use the lrs library, which uses reverse search to
+enumerate the vertices of the polytope. The headers and appropriate C files are contained in ./lrslib-043.
+
+

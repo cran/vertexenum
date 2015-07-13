@@ -1,0 +1,3 @@
+importFrom("numbers", ratFarey)
+export(enumerate.vertices)
+useDynLib(vertexenum)
