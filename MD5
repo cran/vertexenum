@@ -1,9 +1,9 @@
-e5aa5cfc772f50bad703f712b0c9c1a5 *DESCRIPTION
+c901c6a04b8d6df2547caabf7ad2e831 *DESCRIPTION
 ef332640150a10979dc8c9a0caff7372 *NAMESPACE
 83f72de5098357a73ca96f0bfe948f50 *R/enumerate.vertices.R
 26451c807dca12269d909d4687481186 *README
 1845c7cac01e0f32b49bfd2069b2c948 *man/enumerate.vertices.Rd
-d5386d6f18a1ab0c45c2db83d071a4d4 *src/Rvertexenum.c
+a5bc1077ab002ccd1ddcd40facf701a3 *src/Rvertexenum.c
 1d1fd14d36cdae963a18465ecfff29d2 *src/lrslib.c
 20769f709362adf4538a985444653896 *src/lrslib.h
 455c5abef751a5d468d07f1888fcccf2 *src/lrsmp.c

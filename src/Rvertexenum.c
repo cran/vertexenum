@@ -145,12 +145,12 @@ SEXP vertexenum(const SEXP A_num, const SEXP A_den, const SEXP b_num, const SEXP
 	/*   ray_denom[numVertices] = 1; */
 	/* } */
 	if (numVertices == allocated) {
-	  if (tmpMatrixAllocated) {
-	    lrs_clear_mp_matrix(tmpMatrix, oldAllocated, Q->n);
-	  } else {
-	    // first time allocating tmpMatrix
-	    tmpMatrixAllocated = 1;
-	  }
+	  /* if (tmpMatrixAllocated) { */
+	  /*   lrs_clear_mp_matrix(tmpMatrix, oldAllocated, Q->n); */
+	  /* } else { */
+	  /*   // first time allocating tmpMatrix */
+	  /*   tmpMatrixAllocated = 1; */
+	  /* } */
 	  //printf("\n\n");
 	  //printf("Copying...\n");
 	  oldAllocated = allocated;
@@ -225,4 +225,5 @@ static const R_CallMethodDef callMethods[] = {
 
 void R_init_vertexenum(DllInfo *info) {
   R_registerRoutines(info, NULL, callMethods, NULL, NULL);
+  R_useDynamicSymbols(info, FALSE);
 }
